@@ -16,6 +16,7 @@ module.exports = function (grunt) {
   require('jit-grunt')(grunt, {
     useminPrepare: 'grunt-usemin',
     ngtemplates: 'grunt-angular-templates',
+    ngconstant: 'grunt-ng-constant',
     cdnify: 'grunt-google-cdn'
   });
 
@@ -220,7 +221,7 @@ module.exports = function (grunt) {
             }
           }
       }
-    }, 
+    },
 
     // Renames files for browser caching purposes
     filerev: {
@@ -423,6 +424,36 @@ module.exports = function (grunt) {
         configFile: 'test/karma.conf.js',
         singleRun: true
       }
+    },
+
+    // Angular constants settings
+    ngconstant: {
+      // Options for all targets
+      options: {
+        space: '  ',
+        wrap: '// jshint quotmark:false\n' +
+          '// jscs:disable\n' + '"use strict";\n{%= __ngModule %}',
+        name: 'config',
+      },
+      // Environment targets
+      local: {
+        options: {
+          dest: '<%= yeoman.app %>/scripts/config.js'
+        },
+        constants: {
+          ENV: 'local',
+          API_URL: 'http://192.176.0.33'
+        }
+      },
+      production: {
+        options: {
+          dest: '<%= yeoman.dist %>/scripts/config.js'
+        },
+        constants: {
+          ENV: 'production',
+          API_URL: 'http://api.example.com'
+        }
+      }
     }
   });
 
@@ -435,6 +466,7 @@ module.exports = function (grunt) {
     grunt.task.run([
       'clean:server',
       'wiredep',
+      'ngconstant:local',
       'concurrent:server',
       'postcss:server',
       'connect:livereload',
@@ -459,6 +491,7 @@ module.exports = function (grunt) {
   grunt.registerTask('build', [
     'clean:dist',
     'wiredep',
+    'ngconstant:production',
     'useminPrepare',
     'concurrent:dist',
     'postcss',

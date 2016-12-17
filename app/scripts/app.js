@@ -10,6 +10,7 @@
  */
 angular
   .module('devfinApp', [
+    'config',
     'ngRoute',
     'ngSanitize'
   ])
