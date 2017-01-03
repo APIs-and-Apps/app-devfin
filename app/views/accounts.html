@@ -1,0 +1,28 @@
+<input type="text"
+  ng-model="accounts.name"
+  class="form-control"
+  placeholder="Nome da nova conta">
+
+<button class="btn btn-primary"
+  ng-click="accounts.create(accounts.name)">
+  criar
+</button>
+
+<hr>
+
+<table class="table">
+  <thead>
+    <td>id</td>
+    <td>nome</td>
+    <td width="60"></td>
+  </thead>
+  <tbody>
+    <tr ng-repeat="account in accounts.list">
+      <td>{{account.id}}</td>
+      <td>{{account.name}}</td>
+      <td>
+        <button class="btn-xs" ng-click="accounts.delete(account)">excluir</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
